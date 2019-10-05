@@ -1,14 +1,14 @@
 <h1>New Record</h1>
 
-<%= form_with scope: :record, local: true do |form| %>
+<%= form_with scope: :record, url: records_path, local: true do |form| %>
   <p>
     <%= form.label :name %><br>
     <%= form.text_field :name %>
   </p>
  
   <p>
-    <%= form.label :type %><br>
-    <%= form.select :type, Record.types.keys.map { |key, value| [key.upcase, key] } %>
+    Type<br>
+    <%= form.select :dns_type, Record.dns_types.keys.map { |key, value| [key.upcase, key] } %>
   </p>
 
    <p>
