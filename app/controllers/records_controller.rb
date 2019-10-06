@@ -4,6 +4,14 @@ require 'json'
 class RecordsController < ApplicationController
 	before_action :authenticate_user!
 
+  def index
+  	@records = Record.all
+  end
+
+	def show
+    @record = Record.find(params[:id])
+  end
+
 	def new
 	end
 
@@ -16,12 +24,9 @@ class RecordsController < ApplicationController
 		else
 			@record = Record.new(record_params.merge(user_id: current_user.id, cloudflare_id: dns_record['result']['id']))
 			@record.save
-			redirect_to @record
+			redirect_to @record	
 		end
 	end
-
-  def index
-  end
 
   private
 	  def record_params
