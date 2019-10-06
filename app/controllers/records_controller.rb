@@ -28,6 +28,25 @@ class RecordsController < ApplicationController
 		end
 	end
 
+	def destroy
+		@record = Record.find(params[:id])
+
+		if @record.user_id == current_user.id || current_user.admin?
+			status_code = delete_dns_record(@record.cloudflare_id)
+		
+			if status_code != 200
+				flash.now.alert = 'DNS record does not exist'
+				redirect_to @record
+			else
+				@record.destroy
+				redirect_to records_path
+			end
+		else
+			flash.now.alert = 'You don\'t have permission to delete this record'
+			redirect_to @record
+		end
+	end
+
   private
 	  def record_params
 	    params.require(:record).permit(:name, :dns_type, :content)
@@ -44,4 +63,11 @@ class RecordsController < ApplicationController
 
 	  	JSON.parse(response.body)
 	  end
+
+	  def delete_dns_record(cloudflare_id)
+	  	response = HTTParty.delete("https://api.cloudflare.com/client/v4/zones/#{ENV['CLOUDFLARE_ZONE_ID']}/dns_records/#{cloudflare_id}",
+	  		:headers => { 'Authorization' => "Bearer #{ENV['CLOUDFLARE_API_TOKEN']}" })
+
+	  	response.code
+		end
 end

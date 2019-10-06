@@ -1,6 +1,5 @@
 <h1>Records <%= link_to "New Record", new_record_path, class: "btn btn-primary" %></h1>
 
-
 <div class="list-group">
   <% @records.each do |record| %>
     <%= link_to record_path(record), class: "list-group-item list-group-item-action flex-column align-items-start" do %>
