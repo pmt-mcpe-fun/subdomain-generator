@@ -1,4 +1,5 @@
-<h1>Records</h1>
+<h1>Records <%= link_to "New Record", new_record_path, class: "btn btn-primary" %></h1>
+
 
 <div class="list-group">
   <% @records.each do |record| %>
