@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SubdomainGenerator</title>
+    <title>Subdomain Generator</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,9 +10,37 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
+<!--     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    
-    <%= yield %>
+     -->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <%= link_to "Subdomain Generator", root_path, class: "navbar-brand" %>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item <%= active_class(root_path) %>">
+            <%= link_to "Home", root_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item <%= active_class(records_path) %>">
+            <%= link_to "Records", records_path, class: "nav-link" %>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <% if user_signed_in? %>
+            <%= link_to "Sign out", destroy_user_session_path, class: "btn btn-outline-primary" %>
+          <% else %>
+            <%= link_to "Sign in", new_user_session_path, class: "btn btn-outline-primary" %>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container mt-3">
+      <%= yield %>
+    </div>
   </body>
 </html>
